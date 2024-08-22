@@ -105,13 +105,20 @@ pipeline {
 
         stage('Create_Container') {
             steps {
-               sh 'docker run -dit --name ${container_name} -p 85:80 ${image_name}:${version}'
+               sh 'docker run -dit --name ${container_name} -p 85:80 cinta96/${image_name}:${version}'
             }
         }
 
         stage('Display_IP') {
             steps {
-                sh 'docker inspect ${container_name} | grep IP'
+                sh 'docker inspect ${container_name} | awk '/IPAddress/ {gsub(/[",]/, "", $2); print $2}'' | tail -n1
+            }
+        }
+
+        stage('display_link') {
+            steps {
+                def IPAddress = docker inspect ${container_name} | awk '/IPAddress/ {gsub(/[",]/, "", $2); print $2}'' | tail -n1
+                echo "http://${IPAddress}"
             }
         }
     }
