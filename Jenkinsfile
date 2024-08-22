@@ -30,20 +30,20 @@ pipeline {
         stage('Cleanup') {
             steps {
                 script {
-                    def containerExists = sh(script: "docker ps -a -f name=${params.container_name} --format '{{.Names}}'", returnStdout: true).trim()
-                    if (containerExists == params.container_name) {
+                    def containerExists = sh(script: "docker ps -a -f name=${container_name} --format '{{.Names}}'", returnStdout: true).trim()
+                    if (containerExists == container_name) {
                         echo 'Stopping and removing the container...'
                         sh '''
-                            docker stop ${params.container_name}
-                            docker rm ${params.container_name}
+                            docker stop ${container_name}
+                            docker rm ${container_name}
                         '''
                     } else {
-                        echo "Container ${params.container_name} does not exist or is not running."
+                        echo 'Container ${container_name} does not exist or is not running.'
                     }
                 }
                 // Always attempt to remove the image if it exists
                 sh '''
-                    docker rmi ${params.image_name}:${params.version} || echo "Image ${params.image_name}:${params.version} does not exist."
+                    docker rmi ${image_name}:${version} || echo "Image ${image_name}:${version} does not exist."
                 '''
             }
         }
@@ -59,13 +59,10 @@ pipeline {
                sh 'git pull origin main'
             }
         }
-
+        
         stage('Build_image') {
             steps {
-                script {
-                    def imageTag = "cinta96/${params.image_name}:${params.version}"
-                    sh "docker build -t ${imageTag} ./"
-                }
+               sh 'docker build -t ${image_name}:${version} ./ '
             }
         }
 
