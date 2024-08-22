@@ -59,21 +59,19 @@ pipeline {
             }
         }
 
-        stage('repo_login'){
-            steps{
-                sh 'docker login -u cinta96'
-            }
-        }
-
         stage('tag_image'){
             steps{
                 sh 'docker tag ${image_name}:${version} cinta96/${image_name}:${version}'
             }
         }
 
-        stage('push_image'){
+        stage('repo_login'){
             steps{
-                sh 'docker push cinta96/${image_name}:${version}'
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'cinta96_dockerhub_token') {
+                        docker.image("cinta96/webserver:v1").push()
+                    }
+                }
             }
         }
 
