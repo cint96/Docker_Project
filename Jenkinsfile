@@ -111,7 +111,7 @@ pipeline {
 
         stage('Display_IP') {
             steps {
-                sh 'docker inspect ${container_name} | awk '/IPAddress/ {gsub(/[",]/, "", $2); print $2}' | tail -n1
+                sh 'docker inspect ${container_name} | awk '/IPAddress/ {gsub(/[",]/, "", $2); print $2}' | tail -n1'
             }
         }
 
