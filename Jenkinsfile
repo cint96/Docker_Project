@@ -7,6 +7,12 @@ pipeline {
         string(name: 'version', defaultValue: 'v1', description: 'Version or tag of the Docker image')
     }
 
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('cinta96_dockerhub_token') // Use the ID from Jenkins credentials
+        IMAGE_NAME = 'cinta96/${image_name}'
+        TAG = '${version}'
+    }
+
 
     stages {
         stage('List') {
@@ -66,13 +72,20 @@ pipeline {
             }
         }
 
-        stage('Push_Image') {
+        stage('Login to Docker Hub') {
             steps {
                 script {
-                    echo "Pushing image to Docker Hub..."
-                    docker.withRegistry('https://index.docker.io/v1/', 'cinta96_dockerhub_token') {
-                        docker.image("cinta96/${params.image_name}:${params.version}").push()
-                    }
+                    // Login to Docker Hub
+                    sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    // Push Docker image to Docker Hub
+                    sh "docker push ${IMAGE_NAME}:${TAG}"
                 }
             }
         }
