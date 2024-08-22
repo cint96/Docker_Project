@@ -112,12 +112,7 @@ pipeline {
         stage('Display_IP') {
             steps {
                 sh 'docker inspect ${container_name} | awk '/IPAddress/ {gsub(/[",]/, "", $2); print $2}' | tail -n1'
-            }
-        }
-
-        stage('display_link') {
-            steps {
-                def IPAddress = docker inspect ${container_name} | awk '/IPAddress/ {gsub(/[",]/, "", $2); print $2}'' | tail -n1
+                def IPAddress = docker inspect ${container_name} | awk '/IPAddress/ {gsub(/[",]/, "", $2); print $2}' | tail -n1
                 echo "http://${IPAddress}"
             }
         }
