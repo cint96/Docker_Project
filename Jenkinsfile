@@ -114,7 +114,7 @@ pipeline {
                 script {
                     def ipCommand = "docker inspect ${container_name} | awk '/IPAddress/ {gsub(/[\",]/, \"\", \$2); print \$2}' | tail -n1"
                     def ipAddress = sh(script: ipCommand, returnStdout: true).trim()
-                    echo "IP Address: ${ipAddress}"
+                    echo "http://${ipAddress}"
                 }
             }
         }
