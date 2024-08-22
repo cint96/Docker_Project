@@ -85,6 +85,7 @@ pipeline {
             steps {
                 script {
                     // Push Docker image to Docker Hub
+                    echo "pushing image ${image_name}:${version}"
                     sh "docker push ${image_name}:${version}"
                 }
             }
