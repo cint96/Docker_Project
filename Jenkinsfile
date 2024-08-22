@@ -69,9 +69,10 @@ pipeline {
         stage('repo_login'){
             steps{
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'cinta96_dockerhub_token') {
-                        docker.image("cinta96/${image_name}:${version}").push()
-                    }
+                    echo "Pushing image to Docker Hub..."
+                    // docker.withRegistry('https://index.docker.io/v1/', 'cinta96_dockerhub_token') {
+                    //     docker.image("cinta96/${image_name}:${version}").push()
+                    // }
                 }
             }
         }
