@@ -85,8 +85,8 @@ pipeline {
             steps {
                 script {
                     // Push Docker image to Docker Hub
-                    echo "pushing image ${image_name}:${version}"
-                    sh "docker push ${image_name}:${version}"
+                    echo "pushing image cinta96/${image_name}:${version}"
+                    sh "docker push cinta96/${image_name}:${version}"
                 }
             }
         }
