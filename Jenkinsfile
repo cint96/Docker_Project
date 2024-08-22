@@ -7,6 +7,7 @@ pipeline {
         string(name: 'version', defaultValue: 'v1', description: 'Version or tag of the Docker image')
     }
 
+
     stages {
         stage('List') {
             steps {
@@ -69,7 +70,7 @@ pipeline {
             steps{
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'cinta96_dockerhub_token') {
-                        docker.image("cinta96/webserver:v1").push()
+                        docker.image("cinta96/${image_name}:${version}").push()
                     }
                 }
             }
