@@ -70,9 +70,9 @@ pipeline {
             steps{
                 script {
                     echo "Pushing image to Docker Hub..."
-                    // docker.withRegistry('https://index.docker.io/v1/', 'cinta96_dockerhub_token') {
-                    //     docker.image("cinta96/${image_name}:${version}").push()
-                    // }
+                    docker.withRegistry('https://index.docker.io/v1/', 'cinta96_dockerhub_token') {
+                        docker.image("cinta96/${image_name}:${version}").push()
+                    }
                 }
             }
         }
