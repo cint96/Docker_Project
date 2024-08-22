@@ -62,7 +62,6 @@ pipeline {
         stage('repo_login'){
             steps{
                 sh 'docker login -u cinta96'
-                }
             }
         }
 
