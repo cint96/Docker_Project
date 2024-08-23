@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'Devops_vm3_label' 
+    }
 
     parameters {
         string(name: 'container_name', defaultValue: 'web_server', description: 'Name of the Docker container')
@@ -114,7 +116,7 @@ pipeline {
                 script {
                     def ipCommand = "docker inspect ${container_name} | awk '/IPAddress/ {gsub(/[\",]/, \"\", \$2); print \$2}' | tail -n1"
                     def ipAddress = sh(script: ipCommand, returnStdout: true).trim()
-                    echo "http://${ipAddress}"
+                    echo "URL - http://${ipAddress}"
                 }
             }
         }
