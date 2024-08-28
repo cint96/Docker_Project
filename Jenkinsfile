@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'Devops_vm3_label' 
-    }
+    agent any
 
     parameters {
         string(name: 'container_name', defaultValue: 'web_server', description: 'Name of the Docker container')
@@ -11,8 +9,6 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('cinta96_dockerhub_token') // Use the ID from Jenkins credentials
-        // IMAGE_NAME = 'cinta96/${image_name}'
-        // TAG = '${version}'
     }
 
 
